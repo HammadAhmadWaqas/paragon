@@ -31,11 +31,13 @@ class Dropdown extends React.Component {
     this.menuItems = [];
     this.state = {
       open: false,
+      isEverOpen: false,
       focusIndex: 0,
     };
   }
 
   componentWillUpdate(_, nextState) {
+    console.log('yaaaaaaaaaaaaaaaaaaaaaaaaaaaaaayyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy');
     if (nextState.open) {
       this.addEvents();
     } else {
@@ -45,9 +47,11 @@ class Dropdown extends React.Component {
 
   componentDidUpdate() {
     if (this.state.open) {
+      console.log('focused', this.state.open, this.toggleElem);
       this.menuItems[this.state.focusIndex].focus();
-    } else if (this.toggleElem) {
+    } else if (this.state.isEverOpen && this.toggleElem) {
       this.toggleElem.focus();
+      console.log('focused', this.state.open, this.toggleElem);
     }
   }
 
@@ -100,6 +104,11 @@ class Dropdown extends React.Component {
       open: !this.state.open,
       focusIndex: 0,
     });
+    if (this.state.open) {
+      this.setState({
+        isEverOpen: true,
+      });
+    }
   }
 
   generateMenuItems(menuItems) {
